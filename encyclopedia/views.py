@@ -3,6 +3,11 @@ from django.shortcuts import render
 from markdown import markdown
 from . import util
 
+# Create class forms with textarea
+class NewTaskForm(forms.Form):
+    title = forms.CharField()
+    body = forms.CharField(widget=forms.Textarea)
+
 # index function – homepage of the wiki
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -24,4 +29,6 @@ def entry(request, title):
 
 # new function – creates a new encyclopedia entry
 def new(request):
-    return render(request, "encyclopedia/new.html")
+    return render(request, "encyclopedia/new.html", {
+        "form": NewTaskForm()
+    })
