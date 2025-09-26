@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import render
-from markdown import markdown
+from markdown2 import Markdown
 from . import util
 
 # Create class forms with textarea
@@ -18,8 +18,7 @@ def index(request):
 # entry function – displays the contents of the encyclopedia entry
 def entry(request, title):
 
-    html = markdown(util.get_entry(title))
-    print(html)
+    html = Markdown(util.get_entry(title))
 
     return render(request, "encyclopedia/entry.html", {
         "title": title,
