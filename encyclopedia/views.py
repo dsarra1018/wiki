@@ -8,7 +8,8 @@ class NewTaskForm(forms.Form):
     title = forms.CharField()
     body = forms.CharField(widget=forms.Textarea)
 
-# index function – homepage of the wiki
+# index function – list of entries
+# completed
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
@@ -18,14 +19,20 @@ def index(request):
 # entry function – displays the contents of the encyclopedia entry
 def entry(request, title):
 
-    # convert markdown to HTML
-    markdowner = Markdown()
-    html = markdowner.convert(util.get_entry(title))
+    if title in util.list_entries():
+        # convert markdown to HTML
+        markdowner = Markdown()
+        html = markdowner.convert(util.get_entry(title))
 
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "entry": html
-    })
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "entry": html
+        })
+    # display error message when entry is does not exist
+    else:
+        return render(request, "encyclopedia/errors.html")
+
+    
 
 
 # new function – creates a new encyclopedia entry
@@ -37,7 +44,7 @@ def new(request):
             title = form.cleaned_data["title"]
             content = form.cleaned_data["body"]
             util.save_entry(title.capitalize(), content)
-            return HttpResponseRedirect(reverse("index"))
+            
         else:
             return render(request, "encyclopedia/new.html", {
                 "form": form
