@@ -1,5 +1,7 @@
 from django import forms
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from markdown2 import Markdown
 from . import util
 
@@ -18,7 +20,9 @@ def index(request):
 # entry function – displays the contents of the encyclopedia entry
 def entry(request, title):
 
-    html = Markdown(util.get_entry(title))
+    # convert markdown to HTML
+    markdowner = Markdown()
+    html = markdowner.convert(util.get_entry(title))
 
     return render(request, "encyclopedia/entry.html", {
         "title": title,
@@ -28,6 +32,20 @@ def entry(request, title):
 
 # new function – creates a new encyclopedia entry
 def new(request):
+    # POST method – valid data and save entry
+    if request.method == "POST":
+        form = NewTaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["body"]
+            util.save_entry(title.capitalize(), content)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "encyclopedia/new.html", {
+                "form": form
+            })
+        
+    # GET method – render an empty form
     return render(request, "encyclopedia/new.html", {
         "form": NewTaskForm()
     })
