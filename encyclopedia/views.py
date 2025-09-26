@@ -30,9 +30,9 @@ def entry(request, title):
         })
     # display error message when entry is does not exist
     else:
-        return render(request, "encyclopedia/errors.html")
-
-    
+        return render(request, "encyclopedia/errors.html", {
+            "title": title.capitalize()
+        })
 
 
 # new function – creates a new encyclopedia entry
