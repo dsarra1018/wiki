@@ -1,3 +1,5 @@
+import random
+
 from django import forms
 from django.shortcuts import render
 from markdown2 import Markdown
@@ -62,8 +64,14 @@ def new(request):
 def random_page(request):
 
     # generate random page
-    
+    entry = random.choice(util.list_entries())
 
-    return render(request, "encyclopedia/layout.html", {
-        "entry": entry
+    # convert markdown to html
+    markdowner = Markdown()
+    html = markdowner.convert(util.get_entry(entry))
+
+    # display random page from the list
+    return render(request, "encyclopedia/entry.html", {
+        "title": entry,
+        "entry": html 
     })
