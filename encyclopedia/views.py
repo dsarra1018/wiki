@@ -34,8 +34,10 @@ def entry(request, title):
         })
     # error message when entry does not exist
     else:
-        return render(request, "encyclopedia/errors.html", {
-            "title": title
+        return render(request, "encyclopedia/entry.html", {
+            "title": "Does not exist",
+            "entry": None,
+            "message": f"The requested page was not found. Entry for {title} currently does not exist."
         })
 
 
