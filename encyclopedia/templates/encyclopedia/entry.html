@@ -6,7 +6,12 @@ Encyclopedia - {{ title }}
 
 {% block body %}
     <h1>{{ title }}</h1>
-    {{ entry|safe }}
+    
+    {% if entry %}
+        {{ entry|safe }}
+        <button>Edit Page</button>
+    {% else %}
+        {{ message }}
+    {% endif %}
 
-    <button>Edit Page</button>
 {% endblock %}
