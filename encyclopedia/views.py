@@ -1,3 +1,5 @@
+import random
+
 from django import forms
 from django.shortcuts import render
 from markdown2 import Markdown
@@ -8,7 +10,7 @@ class NewTaskForm(forms.Form):
     title = forms.CharField()
     body = forms.CharField(widget=forms.Textarea)
 
-# index function – list of entries
+# index function – list of clickable entries
 # completed
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -17,8 +19,10 @@ def index(request):
 
 
 # entry function – displays the contents of the encyclopedia entry
+# completed
 def entry(request, title):
 
+    # displays entry 
     if title in util.list_entries():
         # convert markdown to HTML
         markdowner = Markdown()
@@ -28,10 +32,10 @@ def entry(request, title):
             "title": title,
             "entry": html
         })
-    # display error message when entry is does not exist
+    # error message when entry does not exist
     else:
         return render(request, "encyclopedia/errors.html", {
-            "title": title.capitalize()
+            "title": title
         })
 
 
