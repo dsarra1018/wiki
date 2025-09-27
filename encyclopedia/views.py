@@ -1,5 +1,3 @@
-import random
-
 from django import forms
 from django.shortcuts import render
 from markdown2 import Markdown
@@ -64,10 +62,8 @@ def new(request):
 def random_page(request):
 
     # generate random page
-    random_number = random.randint(util.list_entries())
-
-    entry = util.get_entry
+    
 
     return render(request, "encyclopedia/layout.html", {
-        "entry": 
+        "entry": entry
     })
