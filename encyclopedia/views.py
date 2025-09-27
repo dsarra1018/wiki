@@ -58,3 +58,16 @@ def new(request):
     return render(request, "encyclopedia/new.html", {
         "form": NewTaskForm()
     })
+
+
+# random function – display a random entry from the list of available entries
+def random_page(request):
+
+    # generate random page
+    random_number = random.randint(util.list_entries())
+
+    entry = util.get_entry
+
+    return render(request, "encyclopedia/layout.html", {
+        "entry": 
+    })
