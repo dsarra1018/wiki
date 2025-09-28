@@ -5,10 +5,14 @@ from django.shortcuts import render, redirect
 from markdown2 import Markdown
 from . import util
 
-# Create class forms with textarea
+# Create form for new entries with a charfield for title and textarea for the content
 class NewTaskForm(forms.Form):
     title = forms.CharField()
     body = forms.CharField(widget=forms.Textarea)
+
+# Create form for updating entries with a textarea for the content
+class EditTaskForm(forms.Form):
+    body = forms.body = forms.CharField(widget=forms.Textarea)
 
 # index function – list of clickable entries
 # completed
@@ -70,16 +74,21 @@ def edit(request, title):
 
     # POST method - save edited entry
     if request.method == "POST":
+        form = NewTaskForm(request.POST)
         if form.is_valid():
-            title = title
-            content = form.cleaned_data["body"]
-            util.save_entry(title.capitalize(), content)
+            body = form.cleaned_data["body"]
+            util.save_entry(title, body)
+            return redirect("entry", title=title)
+        
+    # pre-populate textarea
+    else:
+        form = NewTaskForm(initial={"body":content})
     
 
     # GET method - render edit form
     return render(request, "encyclopedia/edit.html", {
         "title": title,
-        "form": NewTaskForm(initial={"body": content})
+        "form": form
     })
 
 
