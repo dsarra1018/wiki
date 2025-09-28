@@ -1,7 +1,7 @@
 import random
 
 from django import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from markdown2 import Markdown
 from . import util
 
@@ -65,8 +65,16 @@ def new(request):
 # edit function - edits existing page
 def edit(request, title):
 
-    # take title and body
+    # load existing content
     content = util.get_entry(title)
+
+    # POST method - save edited entry
+    if request.method == "POST":
+        if form.is_valid():
+            title = title
+            content = form.cleaned_data["body"]
+            util.save_entry(title.capitalize(), content)
+    
 
     # GET method - render edit form
     return render(request, "encyclopedia/edit.html", {
