@@ -68,8 +68,11 @@ def edit(request, title):
     # take title and body
     content = util.get_entry(title)
 
-
-    return render(request, "encyclopedia/index.ht")
+    # GET method - render edit form
+    return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "form": NewTaskForm(initial={"body": content})
+    })
 
 
 # random function – display a random entry from the list of available entries
