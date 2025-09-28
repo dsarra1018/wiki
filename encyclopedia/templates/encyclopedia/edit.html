@@ -8,7 +8,7 @@ Edit Page
     <h1>Editing {{ title }}'s page</h1>
     <form action="{% url 'new' %}" method="post">
         {% csrf_token %}
-        {{ form.body.value }}
+        {{ form.body }}
         <input type="submit" value="Save Entry">
     </form>
 {% endblock %}
