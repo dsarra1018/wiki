@@ -63,8 +63,13 @@ def new(request):
 
 
 # edit function - edits existing page
-def edit(request):
-    return render(request, "encyclopedia/new.html")
+def edit(request, title):
+
+    # take title and body
+    content = util.get_entry(title)
+
+
+    return render(request, "encyclopedia/index.ht")
 
 
 # random function – display a random entry from the list of available entries
