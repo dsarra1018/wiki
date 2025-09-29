@@ -11,4 +11,9 @@ Create New Page
         {{ form }}
         <input type="submit" value="Save Entry">
     </form>
+
+    # error message
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
 {% endblock %}
