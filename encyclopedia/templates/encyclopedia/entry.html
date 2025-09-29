@@ -13,7 +13,8 @@ Encyclopedia - {{ title }}
             <input type="submit" value="Edit Page">
         </form>
     {% else %}
-        {{ message }}
+        <!-- error message -->
+        <p style="color: red;">{{ message }}</p>
     {% endif %}
 
 {% endblock %}
