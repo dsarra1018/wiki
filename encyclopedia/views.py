@@ -7,12 +7,21 @@ from . import util
 
 # Create form for new entries with a charfield for title and textarea for the content
 class NewTaskForm(forms.Form):
-    title = forms.CharField()
-    body = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'style':'width: 1000px'
+        }))
+    body = forms.CharField(widget=forms.Textarea(attrs={
+        'class':'form-control',
+        'style':'width: 1000px'
+    }))
 
 # Create form for updating entries with a textarea for the content
 class EditTaskForm(forms.Form):
-    body = forms.body = forms.CharField(widget=forms.Textarea)
+    body = forms.body = forms.CharField(widget=forms.Textarea(attrs={
+        'class':'form-control',
+        'style':'width: 1000px'
+    }))
 
 # index function – list of clickable entries
 # completed
