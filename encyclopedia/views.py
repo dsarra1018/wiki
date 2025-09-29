@@ -107,3 +107,30 @@ def random_page(request):
         "title": entry,
         "entry": html 
     })
+
+
+# search function - search for an entry
+def search(request):
+
+    # GET q value
+    query = (request.GET.get("q") or "").strip()
+    
+    # Empty search redirects to index
+    if not query:
+        return redirect("index")
+    
+    # get list of entries
+    entries = util.list_entries()
+
+    # Exact match (case-insensitive)
+    for title in entries:
+        if title.lower() == query.lower():
+            return redirect("entry", title=title)
+    
+    # Substring matches (case-insensitive)
+    results = [title for title in entries if query.lower() in title.lower()]
+
+    return render(request, "encyclopedia/search.html", {
+        "query": query,
+        "results": results
+    })
