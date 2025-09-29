@@ -18,7 +18,7 @@ class NewTaskForm(forms.Form):
 
 # Create form for updating entries with a textarea for the content
 class EditTaskForm(forms.Form):
-    body = forms.body = forms.CharField(widget=forms.Textarea(attrs={
+    body = forms.CharField(widget=forms.Textarea(attrs={
         'class':'form-control',
         'style':'width: 1000px'
     }))
