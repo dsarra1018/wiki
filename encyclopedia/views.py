@@ -74,7 +74,7 @@ def edit(request, title):
 
     # POST method - save edited entry
     if request.method == "POST":
-        form = NewTaskForm(request.POST)
+        form = EditTaskForm(request.POST)
         if form.is_valid():
             body = form.cleaned_data["body"]
             util.save_entry(title, body)
@@ -82,9 +82,8 @@ def edit(request, title):
         
     # pre-populate textarea
     else:
-        form = NewTaskForm(initial={"body":content})
+        form = EditTaskForm(initial={"body":content})
     
-
     # GET method - render edit form
     return render(request, "encyclopedia/edit.html", {
         "title": title,
