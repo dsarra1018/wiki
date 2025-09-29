@@ -41,7 +41,7 @@ def entry(request, title):
         return render(request, "encyclopedia/entry.html", {
             "title": "Does not exist",
             "entry": None,
-            "message": f"The requested page was not found. Entry for {title} currently does not exist."
+            "message": f"The requested page was not found. Entry for '{title}' currently does not exist."
         })
 
 
@@ -53,7 +53,20 @@ def new(request):
         if form.is_valid():
             title = form.cleaned_data["title"]
             content = form.cleaned_data["body"]
+
+            # check if entry exist for title
+            titles = [entry.lower() for entry in util.list_entries()]
+            if title.lower() in titles:
+                return render(request, "encyclopedia/new.html", {
+                    "error": f"An entry for '{title}' already exists."
+                })
+
+            # save entry and renders entry page
             util.save_entry(title.capitalize(), content)
+            return render(request, "encyclopedia/entry.html", {
+                "title": title,
+                "entry": content
+            })
             
         else:
             return render(request, "encyclopedia/new.html", {
